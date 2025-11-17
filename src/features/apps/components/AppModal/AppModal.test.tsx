@@ -74,6 +74,10 @@ describe('AppModal', () => {
   });
 
   it('deve chamar onClose quando botão fechar é clicado', () => {
+    const originalError = console.error;
+    const mockConsoleError = jest.fn();
+    console.error = mockConsoleError;
+
     const { getByText } = render(
       <AppModal
         selectedApp={mockApp}
@@ -83,9 +87,21 @@ describe('AppModal', () => {
       />
     );
 
-    const closeButton = getByText('close');
+    const closeButton = getByText('close') as HTMLButtonElement;
+    const form = closeButton.closest('form') as HTMLFormElement;
+    
+    if (form) {
+      Object.defineProperty(form, 'requestSubmit', {
+        writable: true,
+        configurable: true,
+        value: jest.fn(),
+      });
+    }
+
     fireEvent.click(closeButton);
 
     expect(mockOnClose).toHaveBeenCalled();
+    
+    console.error = originalError;
   });
 });
