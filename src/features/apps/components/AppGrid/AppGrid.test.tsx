@@ -19,39 +19,29 @@ describe('AppGrid', () => {
   });
 
   it('deve renderizar a grade de aplicativos', () => {
-    render(<AppGrid apps={mockApps} search="" onAppSelect={mockOnAppSelect} />);
-
     const { getByText } = render(<AppGrid apps={mockApps} search="" onAppSelect={mockOnAppSelect} />);
     expect(getByText('App 1')).toBeInTheDocument();
     expect(getByText('App 12')).toBeInTheDocument();
   });
 
   it('deve mostrar botões de paginação quando há múltiplas páginas', () => {
-    render(<AppGrid apps={mockApps} search="" onAppSelect={mockOnAppSelect} />);
-
     const { getByText } = render(<AppGrid apps={mockApps} search="" onAppSelect={mockOnAppSelect} />);
     expect(getByText('1')).toBeInTheDocument();
     expect(getByText('2')).toBeInTheDocument();
   });
 
   it('deve filtrar aplicativos por busca', () => {
-    render(<AppGrid apps={mockApps} search="App 1" onAppSelect={mockOnAppSelect} />);
-
-    const { getByText } = render(<AppGrid apps={mockApps} search="App 1" onAppSelect={mockOnAppSelect} />);
+    const { getByText, queryByText } = render(<AppGrid apps={mockApps} search="App 1" onAppSelect={mockOnAppSelect} />);
     expect(getByText('App 1')).toBeInTheDocument();
-    expect(getByText('App 2')).not.toBeInTheDocument();
+    expect(queryByText('App 2')).not.toBeInTheDocument();
   });
 
   it('deve mostrar estado vazio quando nenhum aplicativo corresponde à busca', () => {
-    render(<AppGrid apps={mockApps} search="NonExistentApp" onAppSelect={mockOnAppSelect} />);
-
     const { getByText } = render(<AppGrid apps={mockApps} search="NonExistentApp" onAppSelect={mockOnAppSelect} />);
     expect(getByText(/Nenhum app encontrado/i)).toBeInTheDocument();
   });
 
   it('deve chamar onAppSelect quando um aplicativo é clicado', () => {
-    render(<AppGrid apps={mockApps} search="" onAppSelect={mockOnAppSelect} />);
-
     const { getByText } = render(<AppGrid apps={mockApps} search="" onAppSelect={mockOnAppSelect} />);
     const appCard = getByText('App 1').closest('a');
     if (appCard) {

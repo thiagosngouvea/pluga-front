@@ -3,10 +3,8 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 import { AppProvider, useApp } from './AppContext';
 import { App } from '../types/app.types';
 
-// Mock fetch
 global.fetch = jest.fn();
 
-// Mock localStorage
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
 
@@ -51,8 +49,9 @@ describe('AppContext', () => {
     localStorageMock.clear();
   });
 
-  it('should fetch apps on mount', async () => {
+  it('deve buscar apps ao montar', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
       json: async () => mockApps,
     });
 
@@ -70,10 +69,11 @@ describe('AppContext', () => {
     expect(result.current.apps).toEqual(mockApps);
   });
 
-  it('should load last selected apps from localStorage', async () => {
+  it('deve carregar últimos apps selecionados do localStorage', async () => {
     localStorageMock.setItem('lastSelectedApps', JSON.stringify(['1']));
 
     (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
       json: async () => mockApps,
     });
 
@@ -91,8 +91,9 @@ describe('AppContext', () => {
     expect(result.current.lastSelectedApps[0].app_id).toBe('1');
   });
 
-  it('should handle selected app and update localStorage', async () => {
+  it('deve lidar com app selecionado e atualizar localStorage', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
       json: async () => mockApps,
     });
 
@@ -115,7 +116,7 @@ describe('AppContext', () => {
     expect(localStorageMock.getItem('lastSelectedApps')).toBe(JSON.stringify(['1']));
   });
 
-  it('should limit last selected apps to 3', async () => {
+  it('deve limitar últimos apps selecionados a 3', async () => {
     const manyApps: App[] = Array.from({ length: 5 }, (_, i) => ({
       app_id: `${i + 1}`,
       name: `App ${i + 1}`,
@@ -125,6 +126,7 @@ describe('AppContext', () => {
     }));
 
     (fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
       json: async () => manyApps,
     });
 
@@ -138,7 +140,6 @@ describe('AppContext', () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    // Select 4 apps
     act(() => {
       result.current.handleSelectedApp(manyApps[0]);
       result.current.handleSelectedApp(manyApps[1]);

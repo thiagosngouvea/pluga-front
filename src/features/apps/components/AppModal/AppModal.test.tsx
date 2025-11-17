@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { AppModal } from './AppModal';
 import { App } from '../../types/app.types';
 
@@ -29,10 +29,11 @@ describe('AppModal', () => {
   beforeEach(() => {
     mockOnAppSelect.mockClear();
     mockOnClose.mockClear();
+    HTMLDialogElement.prototype.showModal = jest.fn();
   });
 
   it('deve renderizar modal quando selectedApp é fornecido', () => {
-    const { getByText } = render(
+    const { getAllByText, getByText } = render(
       <AppModal
         selectedApp={mockApp}
         lastSelectedApps={mockLastSelectedApps}
@@ -41,7 +42,7 @@ describe('AppModal', () => {
       />
     );
 
-    expect(getByText('Test App')).toBeInTheDocument();
+    expect(getAllByText('Test App').length).toBeGreaterThan(0);
     expect(getByText('Acessar')).toBeInTheDocument();
   });
 
@@ -83,7 +84,7 @@ describe('AppModal', () => {
     );
 
     const closeButton = getByText('close');
-    closeButton.click();
+    fireEvent.click(closeButton);
 
     expect(mockOnClose).toHaveBeenCalled();
   });

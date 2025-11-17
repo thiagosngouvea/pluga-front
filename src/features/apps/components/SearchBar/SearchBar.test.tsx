@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, fireEvent } from '@testing-library/react';
 import { SearchBar } from './SearchBar';
 
 describe('SearchBar', () => {
@@ -16,12 +15,11 @@ describe('SearchBar', () => {
     expect(input).toBeInTheDocument();
   });
 
-  it('deve atualizar o valor da busca quando o usuário digita', async () => {
-    const user = userEvent.setup();
+  it('deve atualizar o valor da busca quando o usuário digita', () => {
     const { getByPlaceholderText } = render(<SearchBar value="" onChange={mockOnChange} />);
     const input = getByPlaceholderText('Buscar ferramenta') as HTMLInputElement;
 
-    await user.type(input, 'test search');
+    fireEvent.change(input, { target: { value: 'test search' } });
 
     expect(mockOnChange).toHaveBeenCalledWith('test search');
   });
