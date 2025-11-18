@@ -1,35 +1,52 @@
 # Pluga Challenge Front
 
-Nós da [Pluga](https://pluga.co) nos orgulhamos muito do nosso time e sempre queremos
-boas pessoas para acrescentar com a gente, por isso preparamos esse desafio de avaliação.
+Catálogo de ferramentas integradas à Pluga. Busca, visualiza detalhes e mantém histórico das últimas 3 visualizadas.
 
-## Desafio
+## Stack
 
-A código nesse repositório é uma simples aplicação web baseada em
-[React](https://react.dev). Ela lista os apps integrados à Pluga, apresentando
-as funcionalidades de busca e paginação, além de um modal que guarda os últimos
-apps acessados. Apesar de funcional, o código está muito mal organizado,
-totalmente concentrado em um único módulo e sem boas práticas aplicadas.
+- Next.js 16 (App Router)
+- TypeScript
+- React 19
+- Tailwind CSS + DaisyUI
+- Jest + React Testing Library
 
-Sua tarefa é fazer um fork desse repositório e aplicar um bom design de código,
-seguindo os requisitos listados abaixo e claro, mantendo a aplicação funcional.
+## Como rodar
 
-## Requisitos
+```bash
+npm install
+npm run dev
+```
 
-- Migrar para o framework [Next.js](https://nextjs.org);
-- Migrar para a linguagem [Typescript](https://www.typescriptlang.org);
-- Centralizar o estado com [Context Hooks](https://react.dev/reference/react/hooks#context-hooks);
-- Escrever testes com [Jest](https://jestjs.io);
-- Configurar um CI/CD com [GitHub Actions](https://github.com/features/actions);
-- Escrever um README com uma boa descrição do projeto.
+Abre em `http://localhost:3000`
 
-## Considerações
+```bash
+npm run build    # build de produção
+npm test         # testes
+```
 
-Sua entrega será avaliada principalmente pela organização do seu projeto,
-busque entregar um código de fácil manutenção, baixo acoplamento e alta coesão.
+## Estrutura
 
-Caso aceite o desafio e submeta seu projeto, vamos avaliar seu código com muita
-atenção para retornar com a nossa visão de quais são os pontos positivos do seu
-teste e os pontos a melhorar.
+```
+src/
+├── app/                    # Next.js App Router
+├── features/apps/          # Feature principal
+│   ├── components/         # AppCard, AppGrid, AppModal, SearchBar, Pagination
+│   ├── context/            # AppContext (estado global)
+│   ├── hooks/              # useApps, useAppGrid, useAppPagination, useAppSearch
+│   ├── services/           # API e localStorage
+│   └── types/              # Tipos TypeScript
+└── shared/                 # Componentes e utils compartilhados
+```
 
-Muito obrigado e bom coding. :)
+## Funcionalidades
+
+- Lista de apps da API da Pluga
+- Busca em tempo real (com debounce)
+- Paginação (12 itens por página)
+- Modal com detalhes ao clicar
+- Histórico das últimas 3 visualizadas (localStorage)
+- Loading states e tratamento de erros
+
+## Testes
+
+Testes com Jest e React Testing Library cobrindo componentes principais e lógica de negócio.
