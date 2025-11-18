@@ -32,10 +32,6 @@ jobs:
         run: npm run type-check
         continue-on-error: false
 
-      # Opcional: lint
-      # - name: Lint
-      #   run: npm run lint
-
       # Opcional: testes (Jest, Vitest, etc.)
       - name: Test
         run: npm test
