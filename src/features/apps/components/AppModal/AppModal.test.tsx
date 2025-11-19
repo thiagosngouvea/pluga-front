@@ -43,7 +43,7 @@ describe('AppModal', () => {
     );
 
     expect(getAllByText('Test App').length).toBeGreaterThan(0);
-    expect(getByText('Acessar')).toBeInTheDocument();
+    expect(getByText(/Acessar Test App/i)).toBeInTheDocument();
   });
 
   it('não deve renderizar conteúdo do modal quando selectedApp é null', () => {
@@ -69,7 +69,7 @@ describe('AppModal', () => {
       />
     );
 
-    expect(getByText('Últimas ferramentas visualizadas')).toBeInTheDocument();
+    expect(getByText('Visualizadas recentemente')).toBeInTheDocument();
     expect(getByText('Test App 2')).toBeInTheDocument();
   });
 
