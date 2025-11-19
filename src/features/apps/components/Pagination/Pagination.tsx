@@ -14,20 +14,21 @@ export function Pagination({
   onPreviousPage,
 }: PaginationProps) {
   return (
-    <div className="text-center">
-      <div className="join">
+    <div className="flex justify-center items-center py-8">
+      <div className="flex gap-2 items-center">
         <button
           onClick={onPreviousPage}
-          className={`join-item btn ${currentPage === 1 ? 'btn-disabled' : ''}`}
+          className={`btn btn-circle btn-outline ${currentPage === 1 ? 'btn-disabled opacity-40' : 'hover:btn-primary'}`}
           disabled={currentPage === 1}
+          aria-label="Página anterior"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth={1.5}
+            strokeWidth={2}
             stroke="currentColor"
-            className="size-4"
+            className="w-5 h-5"
           >
             <path
               strokeLinecap="round"
@@ -36,27 +37,38 @@ export function Pagination({
             />
           </svg>
         </button>
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <button
-            key={`p${page}`}
-            onClick={() => onPageChange(page)}
-            className={`join-item btn ${page === currentPage ? 'btn-active' : ''}`}
-          >
-            {page}
-          </button>
-        ))}
+        
+        <div className="flex gap-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={`p${page}`}
+              onClick={() => onPageChange(page)}
+              className={`btn btn-square min-w-12 ${
+                page === currentPage 
+                  ? 'btn-primary' 
+                  : 'btn-outline hover:btn-primary'
+              }`}
+              aria-label={`Página ${page}`}
+              aria-current={page === currentPage ? 'page' : undefined}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
+
         <button
           onClick={onNextPage}
-          className={`join-item btn ${currentPage === totalPages ? 'btn-disabled' : ''}`}
+          className={`btn btn-circle btn-outline ${currentPage === totalPages ? 'btn-disabled opacity-40' : 'hover:btn-primary'}`}
           disabled={currentPage === totalPages}
+          aria-label="Próxima página"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth={1.5}
+            strokeWidth={2}
             stroke="currentColor"
-            className="size-4"
+            className="w-5 h-5"
           >
             <path
               strokeLinecap="round"
